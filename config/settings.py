@@ -49,9 +49,9 @@ THIRD_PARTY_APPS = [
 ]
 
 PROJECT_APPS = [
-    'apps.company_heirarchy.apps.CompanyHeirarchyConfig',
-    'apps.users.apps.UsersConfig',
-    'apps.mail.apps.MailConfig',
+    'apps.company_heirarchy',
+    'apps.users',
+    'apps.mail',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
