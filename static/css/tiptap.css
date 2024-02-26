@@ -1,0 +1,22 @@
+.tiptap ul p,
+.tiptap ol p {
+  display: inline;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  font-size: 14px;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
+
+  /* Assuming each row has a height of 20px, adjust as needed */
+div[data-hs-editor-field] {
+    height: 160px; /* 20px * 8 rows = 160px */
+    /* Add any other styling as needed */
+}

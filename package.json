@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  },
+  "dependencies": {
+    "@tiptap/core": "^2.2.3",
+    "@tiptap/pm": "^2.2.3",
+    "@tiptap/starter-kit": "^2.2.3",
+    "flowbite": "^2.3.0"
+  }
+}
