@@ -46,6 +46,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'allauth',
     'allauth.account',
+    'django_htmx',
 ]
 
 PROJECT_APPS = [
@@ -65,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'django_htmx.middleware.HtmxMiddleware'
 ]
 
 ROOT_URLCONF = 'config.urls'

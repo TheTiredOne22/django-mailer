@@ -148,8 +148,9 @@
                                 <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"></path>
                             </svg>
                         </a>
+
                     </div>
-                    <div class="pl-3">
+                    <div class="ml-auto pl-3 flex justify-end">
                         <a href="{% url 'mail:compose' %}"
                            class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-3 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                             <svg class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20"
@@ -197,7 +198,7 @@
                                 <tbody id="search-results" hx-swap="outerHTML"
                                        class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                 {% if inbox_mail %}
-                                {% include 'mailbox/partials/search-results.html' with inbox_mail=inbox_mail %}
+                                {% include 'mailbox/partials/active-search/inbox-search-results.html' %}
                                 {% if inbox_mail.has_next %}
                                 <span hx-get="{% url 'mail:inbox' %}?page={{ inbox_mail.next_page_number }}"
                                       hx-swap="beforeend"
@@ -297,6 +298,19 @@
   document.body.addEventListener('htmx:configRequest', (event) => {
   event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
