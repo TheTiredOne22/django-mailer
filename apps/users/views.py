@@ -1,11 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import ChangePasswordForm, AvatarUpdateForm, CustomUserUpdateForm, CustomProfileUpdateForm
 # Create your views here.
 from django.views.generic import TemplateView
 
 
+@login_required
 def account_settings(request):
     profile = request.user.profile
     avatar_form = AvatarUpdateForm(instance=profile)

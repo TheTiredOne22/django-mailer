@@ -1,8 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from apps.mail.forms import EmailComposeForm
 from apps.mail.models import Email
 
 
+@login_required
 def compose_email(request):
     if request.method == 'POST':
         form = EmailComposeForm(request.POST)

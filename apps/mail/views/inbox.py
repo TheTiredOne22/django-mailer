@@ -1,9 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from apps.mail.models import Email
 from apps.mail.utils import filter_emails
 
 
+@login_required
 def inbox(request):
     """
     View function for displaying the received emails of the logged-in user.
