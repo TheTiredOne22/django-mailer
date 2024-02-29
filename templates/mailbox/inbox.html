@@ -169,8 +169,8 @@
             <form class="p-4 flex items-center">
                 <label for="inbox-search" class="sr-only">Search</label>
                 <div class="relative w-full">
-                    <input type="search" hx-get=""
-                           hx-trigger="input changed delay:500ms, search"
+                    <input type="search" hx-get="{% url 'mail:inbox' %}"
+                           hx-trigger="keyup changed delay:500ms, search"
                            hx-target="#search-results"
                            id="inbox-search"
                            name="q"
@@ -195,10 +195,10 @@
 
                             <table id=""
                                    class="min-w-full divide-y divide-gray-200 table-fixed">
-                                <tbody id="search-results" hx-swap="outerHTML"
+                                <tbody id="search-results"
                                        class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                 {% if inbox_mail %}
-                                {% include 'mailbox/partials/active-search/inbox-search-results.html' %}
+                                {% include 'mailbox/partials/inbox-search-results.html' with inbox_mail=inbox_mail %}
                                 {% if inbox_mail.has_next %}
                                 <span hx-get="{% url 'mail:inbox' %}?page={{ inbox_mail.next_page_number }}"
                                       hx-swap="beforeend"
@@ -220,6 +220,7 @@
                                     </div>
                                 </div>
                                 {% endif %}
+
                                 </tbody>
 
 
@@ -298,6 +299,22 @@
   document.body.addEventListener('htmx:configRequest', (event) => {
   event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

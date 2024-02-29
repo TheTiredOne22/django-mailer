@@ -10,6 +10,13 @@ User = CustomUser
 # Create your models here.
 
 
+def short_uuid():
+    """
+    Generate a short UUID by truncating a UUID to 16 characters.
+    """
+    return str(uuid.uuid4())[:16]
+
+
 class Email(models.Model):
     """
     Represents an email message.
@@ -19,7 +26,7 @@ class Email(models.Model):
     subject = models.CharField(max_length=255)
     body = models.TextField(blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    slug = models.SlugField(max_length=16, unique=True, default=uuid.uuid4, editable=False, blank=True)
+    slug = models.SlugField(max_length=36, unique=True, default=uuid.uuid4, editable=False, blank=True)
     is_read = models.BooleanField(default=False)
     is_deleted_by_sender = models.BooleanField(default=False)
     is_deleted_by_recipient = models.BooleanField(default=False)

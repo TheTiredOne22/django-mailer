@@ -20,13 +20,15 @@ def inbox(request):
         '-timestamp')
 
     # Retrieve search query from GET parameters
-    search_query = request.GET.get('q')
+    search_query = request.GET.get('q', '')
 
     # Apply search filters if a query is present
-    if search_query:
-        inbox_mail = filter_emails(emails, search_query)
-    else:
-        inbox_mail = emails
+    # if search_query:
+    #     inbox_mail = filter_emails(emails, search_query)
+    # else:
+    #     inbox_mail = emails
+
+    inbox_mail = filter_emails(emails, search_query)
 
     # Pagination
     paginator = Paginator(inbox_mail, 10)  # Show 10 emails per page
@@ -34,6 +36,6 @@ def inbox(request):
     inbox_mail = paginator.get_page(page_number)
 
     if request.htmx:
-        return render(request, 'mailbox/partials/active-search/inbox-search-results.html', {'inbox_mail': inbox_mail})
+        return render(request, 'mailbox/partials/inbox-search-results.html', {'inbox_mail': inbox_mail})
     else:
         return render(request, 'mailbox/inbox.html', {'inbox_mail': inbox_mail})
