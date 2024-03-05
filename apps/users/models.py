@@ -58,13 +58,4 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to='profile_images', blank=True)
     bio = models.CharField(max_length=280, blank=True)
     address = models.CharField(max_length=280, blank=True)
-    employee_id = models.CharField(max_length=12, unique=True, editable=False)
 
-    # def save(self, *args, **kwargs):
-    #     """
-    #     Generates an employee ID and saves the profile instance.
-    #     """
-    #     if not self.employee_id:
-    #         dept_code = self.user.department.code[:3].upper()
-    #         self.employee_id = f"{dept_code}.{''.join(random.choices(string.digits, k=3))}"
-    #     super().save(*args, **kwargs)

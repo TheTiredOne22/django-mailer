@@ -1,6 +1,6 @@
 {% for email in inbox_mail %}
 <tr id="email-{{ email.slug }}" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-    onclick="">
+    onclick="window.location.href='{% url 'mail:read' slug=email.slug %}'">
     <td class=" w-4 p-4">
         <div class="inline-flex items-center space-x-4">
             <div>

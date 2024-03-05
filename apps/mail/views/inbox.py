@@ -12,22 +12,11 @@ def inbox(request):
     View function for displaying the received emails of the logged-in user.
     """
 
-    # Retrieve received emails for the current user, excluding archived ones
-
-    emails = Email.objects.filter(recipient=request.user, is_archived_by_recipient=False,
-                                  is_deleted_by_recipient=False).select_related(
-        'sender').prefetch_related('replies').order_by(
-        '-timestamp')
+    # Retrieve emails where the current user is the recipient
+    emails = Email.objects.filter(recipient=request.user)
 
     # Retrieve search query from GET parameters
     search_query = request.GET.get('q', '')
-
-    # Apply search filters if a query is present
-    # if search_query:
-    #     inbox_mail = filter_emails(emails, search_query)
-    # else:
-    #     inbox_mail = emails
-
     inbox_mail = filter_emails(emails, search_query)
 
     # Pagination

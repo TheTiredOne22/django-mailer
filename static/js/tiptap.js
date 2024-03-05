@@ -11,7 +11,7 @@ import ListItem from 'https://esm.sh/@tiptap/extension-list-item';
 import Blockquote from 'https://esm.sh/@tiptap/extension-blockquote';
 
 const editor = new Editor({
-  element: document.querySelector('#hs-editor-tiptap [data-hs-editor-field]'),
+  element: document.querySelector('#hs-editor-tiptap [data-hs-editor-field][name="body"]'),
   extensions: [
     StarterKit,
     Paragraph.configure({

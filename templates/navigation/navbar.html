@@ -1,5 +1,6 @@
 {% include '_base.html' %}
-<nav class="fixed z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+<nav class="fixed z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700" hx-ext="ws"
+     ws-connect="/ws/notifications/">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
             <div class="flex items-center justify-start">
@@ -104,7 +105,7 @@
                                     {{ notification.body|truncatechars:50 }}
                                 </div>
                                 <div class="text-xs font-medium text-primary-700 dark:text-primary-400">
-                                    {{ notification.timestamp|timesince }} ago
+                                    {{ notification.time_since }} ago
                                 </div>
                             </div>
                         </a>

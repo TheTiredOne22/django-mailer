@@ -2,6 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from apps.mail.forms import EmailComposeForm
 from apps.mail.models import Email
+from apps.notifications.handlers import notification_handler
+from apps.notifications.models import Notification
 
 
 @login_required
@@ -16,6 +18,8 @@ def compose_email(request):
 
             # Create the email instance
             email = Email.objects.create(sender=sender, subject=subject, body=body, recipient=recipient)
+            # Send notification to the recipient
+            notification_handler(actor=sender, recipient=recipient, verb=Notification.NEW_EMAIL, action_object=email)
             return redirect('mail:read', slug=email.slug)
     else:
         form = EmailComposeForm()
