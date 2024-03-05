@@ -1,0 +1,60 @@
+<main>
+    {% for reply in replies %}
+    <div class="mt-4 p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
+
+
+        <div class="flex items-center divide-x divide-gray-100 dark:divide-gray-700 justify-between sm:justify-start">
+            <div class="pl-3 text-sm font-medium text-gray-500">
+                {{ reply.timestamp }}
+            </div>
+            <div class="pl-0 space-x-2 divide-x divide-gray-100 sm:flex sm:px-2 dark:divide-gray-700">
+                <div class="pr-2 items-end">
+                    {% if request.user == reply.sender %}
+                    <a href=""
+                       class="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="p-5">
+        <div class="flex items-center mb-4">
+            <div class="flex-shrink-0">
+                <img class="w-8 h-8 rounded-full" src="/images/users/bonnie-green.png" alt="Neil image">
+            </div>
+            <div class="ml-4">
+                <div class="text-base font-semibold text-gray-900 truncate dark:text-white">
+                    {{ reply.sender.first_name }} {{ reply.sender.last_name }}
+                </div>
+                <div class="text-sm text-gray-500 text-normal dark:text-gray-400">
+                    {{ reply.sender.email }}
+                </div>
+            </div>
+        </div>
+        <h1 class="mb-4 text-2xl font-bold text-gray-900 dark:text-white">{{ reply.subject }}
+        </h1>
+        <div class="space-y-2">
+            <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                {{ reply.body }}
+
+
+        </div>
+        <div class="space-y-2 mt-4">
+
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+</main>
+
