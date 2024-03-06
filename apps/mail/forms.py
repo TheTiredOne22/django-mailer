@@ -14,13 +14,13 @@ class EmailComposeForm(forms.ModelForm):
         model = Email
         fields = ['recipient', 'subject', 'body']
 
-        def clean_recipient(self):
-            email = self.cleaned_data.get('recipient')
-            try:
-                recipient = CustomUser.objects.get(email__iexact=email)
-            except CustomUser.DoesNotExist:
-                raise ValidationError("User with this email does not exist.")
-            return recipient
+    def clean_recipient(self):
+        email = self.cleaned_data.get('recipient')
+        try:
+            user = CustomUser.objects.get(email__iexact=email)
+        except CustomUser.DoesNotExist:
+            raise ValidationError("User with this email does not exist.")
+        return user
 
 
 class EmailReplyForm(forms.ModelForm):

@@ -244,12 +244,25 @@
 
             <div class="p-5">
                 <div class="flex items-center mb-4">
+                    {% if email.sender.profile.avatar %}
                     <div class="flex-shrink-0">
-                        <img class="w-8 h-8 rounded-full" src="/images/users/bonnie-green.png" alt="Neil image">
+                        <img class="w-8 h-8 rounded-full" src="{{ email.sender.profile.avatar.url }}"
+                             alt="{{ email.sender.first_name }}'s avatar">
                     </div>
+                    {% else %}
+
+                    <div class="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                        <svg class="absolute w-10 h-10 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+
+                    {% endif %}
                     <div class="ml-4">
                         <div class="text-base font-semibold text-gray-900 truncate dark:text-white">
-                            {{ email.sender.full_name }}
+                            {{ email.sender.first_name }} {{ email.sender.last_name }}
                         </div>
                         <div class="text-sm text-gray-500 text-normal dark:text-gray-400">
                             {{ email.sender }}
@@ -453,11 +466,21 @@
 
 
 
+
+
+
+
+
 </script>
 <script>
     function goBack() {
         window.history.back();
     }
+
+
+
+
+
 
 
 

@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.response import TemplateResponse
 from django.views.decorators.http import require_POST
-from apps.mail.models import Email
+from apps.mail.models import Email, UserEmailAction
 from apps.mail.utils import filter_emails
 
 
@@ -45,5 +45,13 @@ def toggle_starred_email(request, slug):
     """
     # Retrieve the email to toggle starred status
     email = get_object_or_404(Email, slug=slug)
-    email.toggle_starred(request.user)
-    return TemplateResponse(request, 'mailbox/partials/star-icon.html', {'email': email})
+    user_action, created = UserEmailAction.objects.get_or_create(
+        user=request.user,
+        email=email
+    )
+    user_action.toggle_star()
+    context = {
+        'email': email,
+        'user_action': user_action
+    }
+    return TemplateResponse(request, 'mailbox/partials/star-icon.html', context)

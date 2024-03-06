@@ -13,7 +13,13 @@ def inbox(request):
     """
 
     # Retrieve emails where the current user is the recipient
-    emails = Email.objects.filter(recipient=request.user)
+    user = request.user
+    emails = Email.objects.filter(
+        recipient=user,
+        useremailaction__user=user,
+        useremailaction__archived=False,
+        useremailaction__deleted=False
+    ).distinct()
 
     # Retrieve search query from GET parameters
     search_query = request.GET.get('q', '')
