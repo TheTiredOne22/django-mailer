@@ -1,6 +1,6 @@
-{% for email in sent_mail %}
+{% for email in starred_emails %}
 <tr id="email-{{ email.slug }}" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-    onclick="">
+    onclick="window.location.href='{% url 'mail:read' slug=email.slug %}'">
     <td class=" w-4 p-4">
         <div class="inline-flex items-center space-x-4">
             <div>
@@ -17,17 +17,11 @@
         </div>
     </td>
     <td class="flex items-center p-4 space-x-4 whitespace-nowrap">
-        {% if user.profile.avatar %}
         <img class="w-6 h-6 rounded-full"
-             src="{{ user.profile.avatar.url }}"
-             alt="Profile picture">
-        {% else %}
-        <img class="w-8 h-8 rounded-full"
-             src="https://flowbite-admin-dashboard.vercel.app/images/users/bonnie-green-2x.png"
-             alt="Profile picture">
-        {% endif %}
+             src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="">
         <div class="flex items-center text-base font-normal text-gray-700 dark:text-gray-400 font-bold text-gray-900 dark:text-white {{ end }}">
-            <p class="mr-2">{{ email.sender.first_name }} {{ email.sender.last_name }}</p>
+            <p class="mr-2">{{ email.sender.full_name }}</p>
+
         </div>
     </td>
     <td class="ml-2 p-4 text-base font-normal text-gray-700 dark:text-gray-400 font-semibold text-gray-900 dark:text-white {{ end }} max-w-sm xl:max-w-screen-md 2xl:max-w-screen-lg truncate overflow-hidden">
