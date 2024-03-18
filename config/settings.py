@@ -14,6 +14,7 @@ from pathlib import Path
 
 import environ
 import dj_database_url
+import redis
 
 env = environ.Env()
 environ.Env.read_env()
@@ -99,7 +100,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [redis.from_url(env('REDIS_URL'))],
         },
     },
 }
