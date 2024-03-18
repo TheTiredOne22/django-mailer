@@ -46,15 +46,7 @@ def toggle_starred_email(request, slug):
         user=request.user,
         email=email,
     )
-
+    # Toggle the starred status
     user_action.toggle_star()
-    context = {
-        'email': email,
-        'starred': user_action.starred
-    }
 
-    # Render the star-icon partial
-    html = render_to_string('mailbox/partials/star-icon.html', context)
-
-    # Return the updated HTML
-    return HttpResponse(html)
+    return render(request, 'mailbox/partials/star-icon.html', {'user_action': user_action})

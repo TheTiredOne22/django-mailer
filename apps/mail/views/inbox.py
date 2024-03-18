@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Q, Prefetch, Max
 from django.shortcuts import render
 from apps.mail.models import Email
 from apps.mail.utils import filter_emails
@@ -14,12 +14,15 @@ def inbox(request):
 
     # Retrieve emails where the current user is the recipient
     user = request.user
-    emails = Email.objects.filter(
-        recipient=user,
-        useremailaction__user=user,
-        useremailaction__archived=False,
-        useremailaction__deleted=False
-    ).distinct()
+    emails = (
+        Email.objects.filter(
+            recipient=user,
+            useremailaction__user=user,
+            useremailaction__archived=False,
+            useremailaction__deleted=False
+        )
+        .distinct()
+    )
 
     # Retrieve search query from GET parameters
     search_query = request.GET.get('q', '')

@@ -10,22 +10,6 @@ User = settings.AUTH_USER_MODEL
 # Create your models here.
 
 
-class MessageQueryset(models.query.QuerySet):
-    # def get_inbox_messages(self, recipient):
-    #     """
-    #     Returns all the emails where the user is the recipient
-    #     """
-    #     return self.filter(recipient=recipient, useremailaction__archived=False,
-    #                        useremailaction__deleted=False).distinct()
-
-    def get_sent_messages(self, sender):
-        """
-        Returns all emails where the user is the sender
-        """
-        return self.filter(sender=sender, useremailaction__archived=False,
-                           useremailaction__deleted=False).distinct()
-
-
 class Email(models.Model):
     """
     Represents an email message.
@@ -39,7 +23,6 @@ class Email(models.Model):
     is_read = models.BooleanField(default=False)
     parent_email = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE,
                                      related_name='reply_parent')
-    objects = MessageQueryset.as_manager()
 
     class Meta:
         ordering = ['-timestamp']
@@ -54,7 +37,7 @@ class Email(models.Model):
         """
         Returns the absolute URL for viewing the email.
         """
-        return reverse('read', args=[str(self.slug)])
+        return reverse('mail:read', args=[str(self.slug)])
 
     def mark_as_read(self):
         """

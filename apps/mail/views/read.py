@@ -15,20 +15,9 @@ def read_email(request, slug):
     if request.user == email.recipient:
         email.mark_as_read()
 
-    #     notification = Notification.objects.filter(user=request.user, related_email=email).first()
-    #     if notification:
-    #         notification.mark_as_read()
-    #
-    #     # Mark reply notifications as read when a user opens a reply
-    # unread_reply_notifications = Notification.objects.filter(
-    #     user=request.user,
-    #     notification_type=Notification.NotificationType.REPLY,
-    #     related_email=email,
-    #     is_read=False
-    # )
-    #
-    # for notification in unread_reply_notifications:
-    #     notification.mark_as_read()
+        # Mark related notifications as read
+        notifications = Notification.objects.filter(action_object_object_id=email.id)
+        notifications.update(read=True)
 
     # Retrieve replies
     replies = email.get_replies()

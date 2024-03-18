@@ -5,14 +5,26 @@ import json
 class NotificationsConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
-        if self.scope['user'].is_anonymous:
-            await self.close()
-        else:
-            await self.channel_layer.group_add('notifications', self.channel_name)
+        user = self.scope['user']
+        if user.is_authenticated:
             await self.accept()
 
-    async def disconnect(self, close_code):
-        await self.channel_layer.group_discard('notifications', self.channel_name)
+            await self.channel_layer.group_add(
+                f'notifications_{user.id}', self.channel_name)
+        else:
+            await self.close()
 
-    async def receive(self, text_data):
-        await self.send(text_data=json.dumps(text_data))
+    async def disconnect(self, close_code):
+        user = self.scope['user']
+        if user.is_authenticated:
+            await self.channel_layer.group_discard(
+                f'notifications_{user.id}', self.channel_name)
+
+    async def send_notification(self, event):
+        message = event['message']
+
+        # Send message to WebSocket
+        await self.send(
+            text_data=json.dumps({
+                'message': message
+            }))

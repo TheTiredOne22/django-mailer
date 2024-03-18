@@ -1,45 +1,5 @@
 {% for email in archived_mail %}
-<tr id="email-{{ email.slug }}" class="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-    onclick="">
-    <td class=" w-4 p-4">
-        <div class="inline-flex items-center space-x-4">
-            <div>
-                <input id="checkbox-{{ email.slug }}" name="email_ids[]" value="{{ email.id }}"
-                       onclick="event.stopPropagation();"
-                       aria-describedby="checkbox-1" type="checkbox"
-                       class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
-                <label for="checkbox-{{ email.slug }}" class="sr-only">checkbox</label>
-            </div>
-            <div hx-post="{% url 'mail:star_email' slug=email.slug %}" hx-target="#star-icon-{{ email.slug }}"
-                 hx-swap="outerHTML" hx-trigger="click" onclick="event.stopPropagation();">
-                {% include 'mailbox/partials/star-icon.html' %}
-            </div>
-        </div>
-    </td>
-    <td class="flex items-center p-4 space-x-4 whitespace-nowrap">
-        {% if user.profile.avatar %}
-        <img class="w-6 h-6 rounded-full"
-             src="{{ user.profile.avatar.url }}"
-             alt="Profile picture">
-        {% else %}
-        <img class="w-8 h-8 rounded-full"
-             src="https://flowbite-admin-dashboard.vercel.app/images/users/bonnie-green-2x.png"
-             alt="Profile picture">
-        {% endif %}
-        <div class="flex items-center text-base font-normal text-gray-700 dark:text-gray-400 font-bold text-gray-900 dark:text-white {{ end }}">
-            <p class="mr-2">{{ email.sender.first_name }} {{ email.sender.last_name }}</p>
-        </div>
-    </td>
-    <td class="ml-2 p-4 text-base font-normal text-gray-700 dark:text-gray-400 font-semibold text-gray-900 dark:text-white {{ end }} max-w-sm xl:max-w-screen-md 2xl:max-w-screen-lg truncate overflow-hidden">
-        {{ email.subject }}
-    </td>
-    <td class="p-4 text-base font-light text-gray-700 dark:text-gray-400 font-normal text-gray-900 dark:text-white {{ end }} max-w-sm xl:max-w-screen-md 2xl:max-w-screen-lg truncate overflow-hidden">
-        {{ email.body }}
-    </td>
-    <td class="p-4 whitespace-nowrap text-base font-light text-gray-700 dark:text-gray-400 font-medium text-gray-900 dark:text-white {{ end }}">
-        {{ email.timestamp|date:"l, g:i A" }}
-    </td>
-</tr>
+{% include 'mailbox/partials/email-table-row.html' %}
 {% endfor %}
 
 

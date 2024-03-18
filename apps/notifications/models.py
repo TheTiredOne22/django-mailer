@@ -4,22 +4,12 @@ from django.db import models
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.urls import reverse
 from slugify import slugify
 from django.utils.timesince import timesince
 
 # Create your models here.
 User = settings.AUTH_USER_MODEL
-
-
-class NotificationQueryset(models.query.QuerySet):
-
-    def unread(self):
-        """Returns unread notifications in the current queryset"""
-        return self.filter(read=False)
-
-    def unread_notification_count(self):
-        """Returns the count of all unread notifications in the current queryset"""
-        return self.filter(read=False).count()
 
 
 class Notification(models.Model):
@@ -41,6 +31,7 @@ class Notification(models.Model):
     uuid_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=210, null=True, blank=True)
     verb = models.CharField(max_length=1, choices=NOTIFICATION_TYPES)
+    url = models.URLField(null=True, blank=True)
     action_object_content_type = models.ForeignKey(
         ContentType,
         blank=True,
@@ -52,7 +43,6 @@ class Notification(models.Model):
     action_object = GenericForeignKey(
         'action_object_content_type', 'action_object_object_id'
     )
-    objects = NotificationQueryset.as_manager()
 
     class Meta:
         verbose_name = 'Notification'
@@ -61,8 +51,9 @@ class Notification(models.Model):
 
     def __str__(self):
         if self.action_object:
-            return f'{self.actor} {self.get_verb_display()} {self.action_object} {self.time_since()} ago '
-        return f'{self.actor} {self.get_verb_display()} {self.action_object} {self.time_since} ago'
+            return f"{self.actor} {self.get_verb_display()} {self.action_object} {self.time_since()} ago"
+
+        return f"{self.actor} {self.get_verb_display()} {self.time_since()} ago"
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -71,6 +62,12 @@ class Notification(models.Model):
                 lowercase=True,
                 max_length=200,
             )
+
+        if not self.url:
+            if self.verb == Notification.NEW_EMAIL:
+                self.url = reverse('mail:read', args=[str(self.action_object.slug)])
+            elif self.verb == Notification.REPLY:
+                self.url = reverse('mail:read', args=[str(self.action_object.email.slug)])
 
         super().save(*args, **kwargs)
 
