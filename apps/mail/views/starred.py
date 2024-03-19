@@ -1,5 +1,5 @@
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Q, F
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
@@ -46,7 +46,6 @@ def toggle_starred_email(request, slug):
         user=request.user,
         email=email,
     )
-    # Toggle the starred status
     user_action.toggle_star()
 
     return render(request, 'mailbox/partials/star-icon.html', {'user_action': user_action})

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from apps.mail.forms import EmailReplyForm
-from apps.mail.models import Email, Reply
+from apps.mail.models import Email, Reply, UserEmailAction
 from apps.notifications.models import Notification
 
 
@@ -10,6 +10,7 @@ def read_email(request, slug):
     Display details of a specific email and handle email replies.
     """
     email = get_object_or_404(Email, slug=slug)
+    user_email_action = UserEmailAction.objects.get(user=request.user, email=email)
 
     # Mark email as read if the authenticated user is the recipient
     if request.user == email.recipient:
@@ -25,7 +26,11 @@ def read_email(request, slug):
     # Handle the reply form
     form = handle_reply_form(request, email)
 
-    context = {'email': email, 'replies': replies, 'form': form}
+    context = {
+        'email': email,
+        'replies': replies,
+        'form': form,
+        'user_email_action': user_email_action, }
     return render(request, 'mailbox/read.html', context)
 
 

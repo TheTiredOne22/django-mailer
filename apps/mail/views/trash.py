@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_list_or_404, redirect
+from django.db.models import F
+from django.shortcuts import render, get_list_or_404, redirect, get_object_or_404
 
 from apps.mail.models import UserEmailAction, Email
 from apps.mail.utils import filter_emails
@@ -10,8 +11,8 @@ def trash(request):
     user = request.user
     emails = Email.objects.filter(
         useremailaction__user=user,
-        useremailaction__archived=True,
-        useremailaction__deleted=False
+        useremailaction__archived=False,
+        useremailaction__deleted=True
     ).distinct()
 
     # Retrieve search query from GET parameters
@@ -53,4 +54,21 @@ def bulk_trash_email(request):
             user_email_action.toggle_delete()
         messages.success(request, f'{len(emails)} emails deleted successfully')
 
+    return redirect('mail:trash')
+
+
+def toggle_trash_email(request, slug):
+    """
+    View to toggle the deletion status of a specific email.
+    """
+    email = get_object_or_404(Email, slug=slug)
+    user_email_action, created = UserEmailAction.objects.get_or_create(
+        user=request.user,
+        email=email,
+    )
+    UserEmailAction.objects.filter(pk=user_email_action.pk).update(starred=~F('deleted'))
+
+    # Retrieve the updated user_action instance
+    user_email_action.refresh_from_db()
+    messages.success(request, f'Email deleted successfully')
     return redirect('mail:trash')
