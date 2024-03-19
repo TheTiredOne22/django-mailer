@@ -9,6 +9,6 @@ from .models import Notification
 def notification_list(request):
     if request.user.is_authenticated:
         notifications = Notification.objects.filter(recipient=request.user, read=False).distinct()
-        # count = notifications.count
-        return {'notifications': notifications}
+        count = notifications.count
+        return {'notifications': notifications, 'notification_count': count}
     return {}
