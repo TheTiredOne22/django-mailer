@@ -43,7 +43,7 @@
                     </svg>
                     <span id="notification-number"
                           class="p-2 animate-ping mt-2 absolute inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 right-0 dark:border-gray-900"
-                          hx-get="{% url 'notification:update_notification_count' %}"
+                          hx-get="{% url 'notifications:update_notification_count' %}"
                           hx-trigger="newNotification from:body">
                         {{ notification_count }}
                     </span>
