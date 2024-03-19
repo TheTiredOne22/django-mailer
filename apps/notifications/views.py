@@ -1,17 +1,14 @@
-from django.shortcuts import redirect, get_object_or_404
-from .models import Notification
+from django.template.loader import render_to_string
+from django.http import HttpResponse
+
+from apps.notifications.models import Notification
 
 
-# Create your views here.
-def handle_notification_click(request, notification_id):
-    """
-    Handle the click event on a notification to redirect users to the related email or reply.
-    """
-    notification = get_object_or_404(Notification, id=notification_id)
-
-    # Mark the notification as read
-    notification.read = True
-    notification.save()
-
-    # Redirect the user to the related URL
-    return redirect(notification.url)
+def update_notification_count(request):
+    if request.user.is_authenticated:
+        notifications = Notification.objects.filter(recipient=request.user, read=False)
+        count = notifications.count()
+        context = {'notification_count': count}
+        html = render_to_string('notification/notification-count-partial.html', context, request=request)
+        return HttpResponse(html)
+    return HttpResponse('')

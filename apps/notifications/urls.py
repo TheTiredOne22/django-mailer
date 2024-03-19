@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import handle_notification_click
+from .views import update_notification_count
 
 app_name = 'notifications'
 
 urlpatterns = [
     # Other URL patterns...
-    path('notifications/<int:notification_id>/click/', handle_notification_click, name='notification_click'),
+    path('update_notification_count/', update_notification_count, name='update_notification_count'),
+
 ]
