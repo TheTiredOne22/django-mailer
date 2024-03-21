@@ -10,9 +10,10 @@
 
     <div id="main-content" class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
         <main>
+            <div id="messages">
+                {% include 'mailbox/partials/messages/sent-message.html' %}
+            </div>
             <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
-
-
                 <div class="flex items-center divide-x divide-gray-100 dark:divide-gray-700 justify-between sm:justify-start">
                     <div class="pr-3">
                         <a href=javascript:void(0);" onclick="goBack()"
@@ -558,11 +559,15 @@
 
 
 
+
+
 </script>
 <script>
     function goBack() {
         window.history.back();
     }
+
+
 
 
 

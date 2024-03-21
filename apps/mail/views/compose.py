@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from apps.mail.forms import EmailComposeForm
@@ -17,7 +18,8 @@ def compose_email(request):
 
             # Create the email instance
             email = Email.objects.create(sender=sender, subject=subject, body=body, recipient=recipient)
-            # Send notification to the recipient
+            
+            messages.success(request, 'Email sent successfully')
             return redirect('mail:read', slug=email.slug)
     else:
         form = EmailComposeForm()

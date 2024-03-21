@@ -62,7 +62,6 @@
 
                                                 <a hx-delete="{% url 'mail:bulk_trash' %}"
                                                    hx-include="[name='email_ids']"
-                                                   hx-target="#search-results"
                                                    data-modal-hide="delete-modal"
                                                    type="button"
                                                    class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2">
@@ -82,8 +81,6 @@
                         <div>
                             <a hx-post="{% url 'mail:bulk_archive' %}"
                                hx-include="[name='email_ids']"
-                               hx-target="#email-{{ email.slug }}"
-                               hx-swap="innerHTML"
                                data-tooltip-target="tooltip-archive" data-tooltip-placement="top"
                                class="inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
 
@@ -270,6 +267,9 @@
   document.body.addEventListener('htmx:configRequest', (event) => {
   event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
 })
+
+
+
 
 
 

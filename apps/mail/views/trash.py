@@ -31,17 +31,6 @@ def trash(request):
         return render(request, 'mailbox/trash.html', {'trash_mail': trash_mail})
 
 
-# @login_required
-# def trash(request):
-#     user = request.user
-#     emails = Email.objects.filter(
-#         models.Q(sender=user, useremail__deleted=True) |
-#         models.Q(recipient=user, useremail__deleted=True)
-#     ).select_related('sender', 'recipient')
-#     context = {'emails': emails}
-#     return render(request, 'trash.html', context)
-
-
 def bulk_trash_email(request):
     if request.method == 'POST':
         email_ids = request.POST.getlist('email_ids')
@@ -70,5 +59,5 @@ def toggle_trash_email(request, slug):
 
     # Retrieve the updated user_action instance
     user_email_action.refresh_from_db()
-    messages.success(request, f'Email deleted successfully')
+    messages.error(request, f'Email deleted successfully')
     return redirect('mail:trash')
