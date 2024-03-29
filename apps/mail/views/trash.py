@@ -55,9 +55,6 @@ def toggle_trash_email(request, slug):
         user=request.user,
         email=email,
     )
-    UserEmailAction.objects.filter(pk=user_email_action.pk).update(starred=~F('deleted'))
-
-    # Retrieve the updated user_action instance
-    user_email_action.refresh_from_db()
+    user_email_action.toggle_delete()
     messages.error(request, f'Email deleted successfully')
     return redirect('mail:trash')
